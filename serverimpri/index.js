@@ -26,18 +26,6 @@ db.connect(function (err) {
     }
     console.log('Connected to the MySQL server.');
 })
-// var storage = multer.diskStorage({
-//     destination: (req, file, callBack) => {
-//         callBack(null, './public/images/')     // './public/images/' directory name where save the file
-//     },
-//     filename: (req, file, callBack) => {
-//         callBack(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
-//     }
-// })
-
-// var upload = multer({
-//     storage: storage
-// });
 
 app.post('/register', (req, res) => {
 
@@ -49,6 +37,78 @@ app.post('/register', (req, res) => {
     (err, result) => {
       console.log(err);
     })
+});
+app.post('/login', (req, res) => {
+    const email = req.body.email;
+    const password = req.body.password;
+
+     const sql = "SELECT * FROM users WHERE email = ? AND password = ?;"
+    db.query(sql,[email, password],
+    (err, result) => {
+        if (err) {  
+            res.send({message: "fiw"})
+        }
+        if(result.length > 0){
+            // console.log(result);
+            res.send(result);
+        }else{
+            res.send({message: "wrong username or password"});
+        }
+    })
+});
+// app.post('/registerorder', (req, res) => {
+
+//     const email = req.body.emailord;
+//     const password = req.body.passwordord;
+
+//      const sql = "INSERT INTO users (email, password) VALUES (?,?)"
+//     db.query(sql,[email, password],
+//     (err, result) => {
+//       console.log(err);
+//     })
+// });
+
+//! Use of Multer
+var storage = multer.diskStorage({
+    destination: (req, file, callBack) => {
+        callBack(null, './public/images/')     // './public/images/' directory name where save the file
+    },
+    filename: (req, file, callBack) => {
+        callBack(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
+    }
+})
+
+const fileFilter=(req, file, cb) =>{
+    if(file.mimeType === 'image/jpeg' || file.mimeType === 'image/png'){
+        callBack(null, true);
+    }else{
+    callBack(new Error('Unsupported files'), false);
+    }
+}
+ 
+var upload = multer({
+    storage: storage,
+    limits : {
+        fileSize : 1024 * 1024 * 10
+    },
+    fileFilter: fileFilter
+});
+ 
+//@type   POST
+//route for post data
+app.post("/upload", (req, res) => {
+    nameorder  = req.body.name;
+    phonenumberorder = req.body.phonenumber;
+    emailorder = req.body.email;
+    Productsorder = req.body.Products;
+    fileorder = req.body.file;
+
+    console.log(nameorder);
+    console.log(phonenumberorder);
+    console.log(emailorder);
+    console.log(Productsorder);
+    console.log(fileorder);
+   
 });
 
 app.listen(3001, () => {
