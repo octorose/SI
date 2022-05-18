@@ -1,10 +1,12 @@
 const express = require('express');
-const fileupload = require("express-fileupload");
+//const fileupload = require("express-fileupload");
 const cors = require("cors");
 const mysql = require('mysql')
 const multer = require('multer')
 const path = require('path')
 const bodyParser = require('body-parser');
+const { read } = require('fs');
+const { response } = require('express');
 
 const app = express();
 app.use(cors());
@@ -16,7 +18,7 @@ app.use(express.json());
 const db = mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: "Hallouch",
+    password: "",
     database: "CRUDDB"
 })
 
@@ -93,21 +95,45 @@ var upload = multer({
     },
     fileFilter: fileFilter
 });
- 
+
 //@type   POST
 //route for post data
 app.post("/upload", (req, res) => {
+    var type = "";
+    var price = "";
     nameorder  = req.body.name;
     phonenumberorder = req.body.phonenumber;
     emailorder = req.body.email;
     Productsorder = req.body.Products;
     fileorder = req.body.file;
+    Quantity = req.body.Quantity;
+    // response = req.body.response;
+
 
     console.log(nameorder);
     console.log(phonenumberorder);
     console.log(emailorder);
-    console.log(Productsorder);
+        if (Productsorder == "30") {
+            type = "Flayer";
+            price = 30 * Quantity;
+    }
+        else if (Productsorder == "15") {
+            type = "Paper";
+            price = 15 * Quantity;
+    }
+        else if (Productsorder == "7") {
+            type = "Business card";
+            price = 7 * Quantity;
+    }
+        else if (Productsorder == "130") {
+            type = "Poster";
+            price = 130 * Quantity;
+    };
+    // console.log(Productsorder);
+    console.log(type);
     console.log(fileorder);
+    console.log(Quantity);
+    console.log(price);
    
 });
 
