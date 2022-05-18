@@ -110,9 +110,9 @@ app.post("/upload", (req, res) => {
     // response = req.body.response;
 
 
-    console.log(nameorder);
-    console.log(phonenumberorder);
-    console.log(emailorder);
+    // console.log(nameorder);
+    // console.log(phonenumberorder);
+    // console.log(emailorder);
         if (Productsorder == "30") {
             type = "Flayer";
             price = 30 * Quantity;
@@ -129,12 +129,27 @@ app.post("/upload", (req, res) => {
             type = "Poster";
             price = 130 * Quantity;
     };
-    // console.log(Productsorder);
-    console.log(type);
-    console.log(fileorder);
-    console.log(Quantity);
-    console.log(price);
-   
+    // // console.log(Productsorder);
+    // console.log(type);
+    // console.log(fileorder);
+    // console.log(Quantity);
+    // console.log(price);
+    const sql = "INSERT INTO commandes (nameorder, phonenumberorder,emailorder, type, Quantity, fileorder, price) VALUES (?,?,?,?,?,?,?);"
+    db.query(sql,[nameorder, phonenumberorder,emailorder, type, Quantity, fileorder, price],
+    (err, result) => {
+              if (err) {  
+                  res.send({ message: "commande non effectuée" });
+        }
+        if (result.length > 0){
+            // console.log(result);
+            res.send({ message: "commande effectuée" })
+
+        }else if(result == 0){
+            
+            res.send({message: "commande non effectuée"});
+            
+        }
+    })
 });
 
 app.listen(3001, () => {
