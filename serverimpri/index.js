@@ -137,14 +137,14 @@ app.post("/upload", (req, res) => {
     const sql = "INSERT INTO commandes (nameorder, phonenumberorder,emailorder, type, Quantity, fileorder, price) VALUES (?,?,?,?,?,?,?);"
     db.query(sql,[nameorder, phonenumberorder,emailorder, type, Quantity, fileorder, price],
     (err, result) => {
-              if (err) {  
-                  res.send({ message: "commande non effectuée" });
+        if (err) {  
+                res.send({ message: "commande non effectuée" });  
+                  
         }
-        if (result.length > 0){
+        if (result){
             // console.log(result);
             res.send({ message: "commande effectuée" })
-
-        }else if(result == 0){
+        }else {
             
             res.send({message: "commande non effectuée"});
             
