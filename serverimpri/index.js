@@ -113,21 +113,25 @@ app.post("/upload", (req, res) => {
     // console.log(nameorder);
     // console.log(phonenumberorder);
     // console.log(emailorder);
-        if (Productsorder == "30") {
-            type = "Flayer";
-            price = 30 * Quantity;
+    if (Productsorder == "30") {
+        type = "Flayer";
+        price = 30 * Quantity;
     }
-        else if (Productsorder == "15") {
-            type = "Paper";
-            price = 15 * Quantity;
+    else if (Productsorder == "15") {
+        type = "Paper";
+        price = 15 * Quantity;
     }
-        else if (Productsorder == "7") {
-            type = "Business card";
-            price = 7 * Quantity;
+    else if (Productsorder == "7") {
+        type = "Business card";
+        price = 7 * Quantity;
     }
-        else if (Productsorder == "130") {
-            type = "Poster";
-            price = 130 * Quantity;
+    else if (Productsorder == "130") {
+        type = "Poster";
+        price = 130 * Quantity;
+    }
+    else if (Productsorder == "190") { 
+        type = "T-shirt";
+        price = 190 * Quantity;
     };
     // // console.log(Productsorder);
     // console.log(type);
